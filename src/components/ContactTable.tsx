@@ -1,7 +1,14 @@
 import { Icontact } from "../types/types";
 import { tableHeaderTexts } from "../constants/textConstants";
+import { deleteContact, setContactsType } from "../helpers/actionMethods";
 
-export default function ContactTable({ contacts }: { contacts: Icontact[] }) {
+export default function ContactTable({
+  contacts,
+  setContacts,
+}: {
+  contacts: Icontact[];
+  setContacts: setContactsType;
+}) {
   return (
     <table>
       <thead>
@@ -23,7 +30,17 @@ export default function ContactTable({ contacts }: { contacts: Icontact[] }) {
             <td>
               {contact["City"]}
               <div>
-                <button>Delete</button>
+                <button
+                  onClick={() => {
+                    deleteContact({
+                      contacts,
+                      setContacts,
+                      id: contact.id as number,
+                    });
+                  }}
+                >
+                  Delete
+                </button>
                 <button>Edit</button>
               </div>
             </td>

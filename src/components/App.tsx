@@ -14,7 +14,7 @@ function App() {
     <div>
       <>
         <button>Add</button>
-        {ContactTable({ contacts })}
+        {ContactTable({ contacts, setContacts })}
         <ContactForm setContacts={setContacts} contacts={contacts} />
       </>
     </div>
