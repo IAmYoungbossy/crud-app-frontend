@@ -7,3 +7,9 @@ export const tableHeaderTexts = [
   "Email",
   "City",
 ];
+
+export function getInputFieldNames() {
+  const inputFieldNames = [...tableHeaderTexts];
+  inputFieldNames.shift();
+  return { inputFieldNames };
+}
