@@ -1,9 +1,5 @@
-export default class ContactAPI {
-  public static async getAll() {
-    const resp = await fetch("http://localhost:3001/contacts", {
-      method: "Get",
-    });
-    const data = await resp.json();
-    return data;
-  }
-}
+import axios from "axios";
+
+export default axios.create({
+  baseURL: "http://localhost:3001/",
+});
