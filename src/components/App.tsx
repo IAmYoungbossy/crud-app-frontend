@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { getContacts } from "../helpers/actionMethods";
 import { Icontact } from "../types/types";
+import ContactTable from "./ContactTable";
+import { Fragment, useEffect, useState } from "react";
+import { getContacts } from "../helpers/actionMethods";
 
 function App() {
   const [contacts, setContacts] = useState<Icontact[] | []>([]);
@@ -8,7 +9,7 @@ function App() {
     (async () => await getContacts(setContacts))();
   }, []);
 
-  return <div></div>;
+  return <div>{ContactTable({ contacts })}</div>;
 }
 
 export default App;

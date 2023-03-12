@@ -1,4 +1,5 @@
 export interface Icontact {
+  id: number;
   city: string;
   phone: string;
   email: string;
