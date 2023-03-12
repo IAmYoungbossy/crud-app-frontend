@@ -1,6 +1,6 @@
 export const tableHeaderTexts = [
   "S/N",
-  "FirstName",
+  "First Name",
   "Last Name",
   "Country",
   "Phone",

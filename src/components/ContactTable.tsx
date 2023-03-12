@@ -15,12 +15,12 @@ export default function ContactTable({ contacts }: { contacts: Icontact[] }) {
         {contacts.map((contact, index) => (
           <tr key={contact.id}>
             <td>{index + 1}</td>
-            <td>{contact.firstName}</td>
-            <td>{contact.lastName}</td>
-            <td>{contact.country}</td>
-            <td>{contact.phone}</td>
-            <td>{contact.email}</td>
-            <td>{contact.city}</td>
+            <td>{contact["First Name"]}</td>
+            <td>{contact["Last Name"]}</td>
+            <td>{contact["Country"]}</td>
+            <td>{contact["Phone"]}</td>
+            <td>{contact["Email"]}</td>
+            <td>{contact["City"]}</td>
           </tr>
         ))}
       </tbody>

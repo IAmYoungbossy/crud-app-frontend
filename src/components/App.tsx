@@ -13,6 +13,7 @@ function App() {
   return (
     <div>
       <>
+        <button>Add</button>
         {ContactTable({ contacts })}
         <ContactForm />
       </>
