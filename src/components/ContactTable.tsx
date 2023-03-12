@@ -1,3 +1,4 @@
+import { tableHeaderTexts } from "../constants/textConstants";
 import { Icontact } from "../types/types";
 
 export default function ContactTable({ contacts }: { contacts: Icontact[] }) {
@@ -5,13 +6,9 @@ export default function ContactTable({ contacts }: { contacts: Icontact[] }) {
     <table>
       <thead>
         <tr>
-          <th>S/N</th>
-          <th>FirstName</th>
-          <th>Last Name</th>
-          <th>Country</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th>City</th>
+          {tableHeaderTexts.map((headerText, index) => (
+            <th key={index}>{headerText}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
