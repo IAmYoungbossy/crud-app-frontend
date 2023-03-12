@@ -9,3 +9,22 @@ export const getContacts = async (setContacts: setContactsType) => {
   setContacts(responseData);
   console.log(responseData);
 };
+
+interface IAddContact {
+  inputFieldObj: Icontact;
+  setContacts: setContactsType;
+  contacts: Icontact[];
+}
+
+export const addContact = async ({
+  setContacts,
+  contacts,
+  inputFieldObj,
+}: IAddContact) => {
+  const newContact = (
+    await contactApi.post("/contacts/create", {
+      ...inputFieldObj,
+    })
+  ).data as Icontact;
+  setContacts([...contacts, newContact]);
+};

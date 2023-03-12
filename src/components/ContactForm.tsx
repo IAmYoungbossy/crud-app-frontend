@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { IHandkeChange } from "../types/types";
+import { addContact } from "../helpers/actionMethods";
+import { Icontact, IHandkeChange } from "../types/types";
 import { inputObject } from "../constants/objectConstant";
 import { getInputFieldNames } from "../constants/textConstants";
 
@@ -11,7 +12,13 @@ type inputFieldType =
   | "Email"
   | "Phone";
 
-export default function ContactForm() {
+export default function ContactForm({
+  setContacts,
+  contacts,
+}: {
+  setContacts: React.Dispatch<React.SetStateAction<[] | Icontact[]>>;
+  contacts: [] | Icontact[];
+}) {
   const [inputFieldObj, setInputFieldObj] = useState(inputObject);
 
   const handleChange = ({ inputField, e }: IHandkeChange) => {
@@ -39,7 +46,14 @@ export default function ContactForm() {
           </div>
         );
       })}
-      <button>Add Contact</button>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          addContact({ setContacts, contacts, inputFieldObj });
+        }}
+      >
+        Add Contact
+      </button>
     </form>
   );
 }

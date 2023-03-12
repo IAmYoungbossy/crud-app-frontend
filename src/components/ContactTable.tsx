@@ -1,5 +1,5 @@
-import { tableHeaderTexts } from "../constants/textConstants";
 import { Icontact } from "../types/types";
+import { tableHeaderTexts } from "../constants/textConstants";
 
 export default function ContactTable({ contacts }: { contacts: Icontact[] }) {
   return (
@@ -20,7 +20,13 @@ export default function ContactTable({ contacts }: { contacts: Icontact[] }) {
             <td>{contact["Country"]}</td>
             <td>{contact["Phone"]}</td>
             <td>{contact["Email"]}</td>
-            <td>{contact["City"]}</td>
+            <td>
+              {contact["City"]}
+              <div>
+                <button>Delete</button>
+                <button>Edit</button>
+              </div>
+            </td>
           </tr>
         ))}
       </tbody>
