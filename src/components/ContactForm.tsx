@@ -15,13 +15,33 @@ export default function ContactForm() {
   const { contactFormType } = useAppSelector((state) => state.contactFormType);
 
   const handleChange = ({ inputField, e }: IHandleChange) => {
-    const inputFieldCopy = { ...contactForm, [inputField]: e.target.value };
-    dispatch(setContactForm(inputFieldCopy));
+    const updatedContactForm = { ...contactForm, [inputField]: e.target.value };
+    dispatch(setContactForm(updatedContactForm));
   };
 
   const { inputFieldNames } = getInputFieldNames();
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (contactFormType === "add contact") {
+      const updatedContacts = await addContact({ contacts, contactForm });
+      dispatch(setContact(updatedContacts));
+      dispatch(setContactForm(inputObject));
+    }
+    if (contactFormType === "edit contact") {
+      const updatedContacts = await editContact({
+        contacts,
+        contactForm,
+        id: editContactId as number,
+      });
+      dispatch(setContact(updatedContacts));
+      dispatch(setContactForm(inputObject));
+    }
+    dispatch(setFormModal(false));
+  };
+
   return (
-    <form>
+    <form onSubmit={handleFormSubmit}>
       {inputFieldNames.map((inputField, index) => {
         const value = inputField as inputFieldType;
         return (
@@ -38,31 +58,8 @@ export default function ContactForm() {
           </div>
         );
       })}
-      <button
-        onClick={(e) => {
-          (async () => {
-            e.preventDefault();
-            if (contactFormType === "add contact") {
-              dispatch(setContact(await addContact({ contacts, contactForm })));
-              dispatch(setContactForm(inputObject));
-            }
-            if (contactFormType === "edit contact") {
-              dispatch(
-                setContact(
-                  await editContact({
-                    contacts,
-                    contactForm,
-                    id: editContactId as number,
-                  })
-                )
-              );
-              dispatch(setContactForm(inputObject));
-            }
-            dispatch(setFormModal(false));
-          })();
-        }}
-      >
-        {contactFormType === "add contact" ? "Add Contact" : "Edit contact"}
+      <button>
+        {contactFormType === "add contact" ? "Add Contact" : "Edit Contact"}
       </button>
     </form>
   );
