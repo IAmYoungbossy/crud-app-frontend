@@ -9,7 +9,6 @@ export const TABLE_HEADER_TEXTS = [
 ];
 
 export function getInputFieldNames() {
-  const inputFieldNames = [...TABLE_HEADER_TEXTS];
-  inputFieldNames.shift();
+  const inputFieldNames = TABLE_HEADER_TEXTS.slice(1);
   return { inputFieldNames };
 }
