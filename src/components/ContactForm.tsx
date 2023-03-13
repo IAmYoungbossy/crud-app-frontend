@@ -5,7 +5,7 @@ import { setContactForm } from "../features/contactFormSlice";
 import { IHandleChange, inputFieldType } from "../types/types";
 import { getInputFieldNames } from "../constants/textConstants";
 import { addContact, editContact } from "../helpers/actionMethods";
-import { useAppDispatch, useAppSelector } from "../reuduxStore/store";
+import { useAppDispatch, useAppSelector } from "../reduxStore/store";
 
 export default function ContactForm() {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 import React from "react";
 import App from "./components/App";
-import { store } from "./reuduxStore/store";
+import { store } from "./reduxStore/store";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";

@@ -5,7 +5,7 @@ import { tableHeaderTexts } from "../constants/textConstants";
 import { setContactForm } from "../features/contactFormSlice";
 import { setContactFormType } from "../features/formTypeSlice";
 import { setEditContactId } from "../features/editContactIdSlice";
-import { useAppDispatch, useAppSelector } from "../reuduxStore/store";
+import { useAppDispatch, useAppSelector } from "../reduxStore/store";
 
 export default function ContactTable() {
   const dispatch = useAppDispatch();

@@ -5,23 +5,28 @@ import { setContact } from "../features/contactSlice";
 import { getContacts } from "../helpers/actionMethods";
 import { setFormModal } from "../features/formModalSlice";
 import { setContactFormType } from "../features/formTypeSlice";
-import { useAppDispatch, useAppSelector } from "../reuduxStore/store";
+import { useAppDispatch, useAppSelector } from "../reduxStore/store";
 
 function App() {
-  const handleClick = () => {
-    dispatch(setFormModal(true));
-    dispatch(setContactFormType("add contact"));
-  };
   const dispatch = useAppDispatch();
   const { showFormModal } = useAppSelector((state) => state.formModal);
 
   useEffect(() => {
-    (async () => dispatch(setContact(await getContacts())))();
-  }, []);
+    const fetchContacts = async () => {
+      const contacts = await getContacts();
+      dispatch(setContact(contacts));
+    };
+    fetchContacts();
+  }, [dispatch]);
+
+  const handleAddContactClick = () => {
+    dispatch(setFormModal(true));
+    dispatch(setContactFormType("add contact"));
+  };
 
   return (
     <div>
-      <button onClick={handleClick}>Add</button>
+      <button onClick={handleAddContactClick}>Add Contact</button>
       <ContactTable />
       {showFormModal && <ContactForm />}
     </div>
