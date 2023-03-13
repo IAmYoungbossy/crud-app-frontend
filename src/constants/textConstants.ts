@@ -1,4 +1,4 @@
-export const tableHeaderTexts = [
+export const TABLE_HEADER_TEXTS = [
   "S/N",
   "First Name",
   "Last Name",
@@ -9,7 +9,7 @@ export const tableHeaderTexts = [
 ];
 
 export function getInputFieldNames() {
-  const inputFieldNames = [...tableHeaderTexts];
+  const inputFieldNames = [...TABLE_HEADER_TEXTS];
   inputFieldNames.shift();
   return { inputFieldNames };
 }
