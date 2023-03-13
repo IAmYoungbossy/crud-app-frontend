@@ -1,30 +1,21 @@
-import { useState } from "react";
-import { addContact } from "../helpers/actionMethods";
-import { Icontact, IHandkeChange } from "../types/types";
-import { inputObject } from "../constants/objectConstant";
+import { setContact } from "../features/contactSlice";
+import { setFormModal } from "../features/formModalSlice";
+import { setContactForm } from "../features/contactFormSlice";
+import { IHandkeChange, inputFieldType } from "../types/types";
 import { getInputFieldNames } from "../constants/textConstants";
+import { useAppDispatch, useAppSelector } from "../reuduxStore/store";
+import { addContact, editContact } from "../helpers/actionMethods";
 
-type inputFieldType =
-  | "City"
-  | "Last Name"
-  | "First Name"
-  | "Country"
-  | "Email"
-  | "Phone";
-
-export default function ContactForm({
-  setContacts,
-  contacts,
-}: {
-  setContacts: React.Dispatch<React.SetStateAction<[] | Icontact[]>>;
-  contacts: [] | Icontact[];
-}) {
-  const [inputFieldObj, setInputFieldObj] = useState(inputObject);
+export default function ContactForm() {
+  const dispatch = useAppDispatch();
+  const { contacts } = useAppSelector((state) => state.contacts);
+  const { contactForm } = useAppSelector((state) => state.contactFormObj);
+  const { editContactId } = useAppSelector((state) => state.editContactId);
+  const { contactFormType } = useAppSelector((state) => state.contactFormType);
 
   const handleChange = ({ inputField, e }: IHandkeChange) => {
-    const inputFieldCopy = { ...inputFieldObj, [inputField]: e.target.value };
-    console.log(inputFieldCopy);
-    setInputFieldObj(inputFieldCopy);
+    const inputFieldCopy = { ...contactForm, [inputField]: e.target.value };
+    dispatch(setContactForm(inputFieldCopy));
   };
 
   const { inputFieldNames } = getInputFieldNames();
@@ -40,7 +31,7 @@ export default function ContactForm({
               id={inputField}
               name={inputField}
               placeholder={inputField}
-              value={inputFieldObj[value]}
+              value={contactForm[value]}
               onChange={(e) => handleChange({ inputField, e })}
             />
           </div>
@@ -48,11 +39,27 @@ export default function ContactForm({
       })}
       <button
         onClick={(e) => {
-          e.preventDefault();
-          addContact({ setContacts, contacts, inputFieldObj });
+          (async () => {
+            e.preventDefault();
+            if (contactFormType === "add contact") {
+              dispatch(setContact(await addContact({ contacts, contactForm })));
+            }
+            if (contactFormType === "edit contact") {
+              dispatch(
+                setContact(
+                  await editContact({
+                    contacts,
+                    contactForm,
+                    id: editContactId as number,
+                  })
+                )
+              );
+            }
+            dispatch(setFormModal(false));
+          })();
         }}
       >
-        Add Contact
+        {contactFormType === "add contact" ? "Add Contact" : "Edit contact"}
       </button>
     </form>
   );

@@ -5,52 +5,54 @@ export type setContactsType = React.Dispatch<
   React.SetStateAction<[] | Icontact[]>
 >;
 
-export const getContacts = async (setContacts: setContactsType) => {
+export const getContacts = async () => {
   const response = await contactApi.get("contacts");
   const responseData = response.data as Icontact[];
-  setContacts(responseData);
-  console.log(responseData);
+  return responseData;
 };
 
 interface IAddContact {
-  inputFieldObj?: Icontact;
-  setContacts: setContactsType;
+  contactForm?: Icontact;
   contacts: Icontact[];
 }
 
-export const addContact = async ({
-  setContacts,
-  contacts,
-  inputFieldObj,
-}: IAddContact) => {
+export const addContact = async ({ contacts, contactForm }: IAddContact) => {
   const newContact = (
     await contactApi.post("/contacts/create", {
-      ...inputFieldObj,
+      ...contactForm,
     })
   ).data as Icontact;
-  setContacts([...contacts, newContact]);
+  return [...contacts, newContact];
 };
 
-interface IDeleteContact extends IAddContact {
+interface IDeleteContact {
   id: number;
+  contacts: Icontact[];
 }
 
-export const deleteContact = async ({
-  id,
-  contacts,
-  setContacts,
-}: IDeleteContact) => {
+export const deleteContact = async ({ id, contacts }: IDeleteContact) => {
   await contactApi.delete(`contacts/${id}/delete`);
   const updatedContacts = contacts.filter((contact) => contact.id !== id);
-  setContacts(updatedContacts);
+  return updatedContacts;
 };
+
+interface IEditContact {
+  id: number;
+  contacts: Icontact[];
+  contactForm: Icontact;
+}
 
 export const editContact = async ({
   id,
   contacts,
-  setContacts,
-}: IDeleteContact) => {
-  await contactApi.delete(`contacts/${id}/update`);
-  const updatedContacts = contacts.filter((contact) => contact.id !== id);
-  setContacts(updatedContacts);
+  contactForm,
+}: IEditContact) => {
+  await contactApi.put(`contacts/${id}/update`, contactForm);
+  const editedContact = contacts.filter((contact) => contact.id === id)[0];
+  const index = contacts.indexOf(editedContact);
+  const contactCopy = [...contacts];
+  const inputFieldObjCopy = { ...contactForm };
+  inputFieldObjCopy.id = id;
+  contactCopy[index] = inputFieldObjCopy;
+  return contactCopy;
 };

@@ -1,14 +1,15 @@
-import { Icontact } from "../types/types";
+import { setContact } from "../features/contactSlice";
+import { deleteContact } from "../helpers/actionMethods";
+import { setFormModal } from "../features/formModalSlice";
 import { tableHeaderTexts } from "../constants/textConstants";
-import { deleteContact, setContactsType } from "../helpers/actionMethods";
+import { setContactFormType } from "../features/formTypeSlice";
+import { useAppDispatch, useAppSelector } from "../reuduxStore/store";
+import { setEditContactId } from "../features/editContactIdSlice";
 
-export default function ContactTable({
-  contacts,
-  setContacts,
-}: {
-  contacts: Icontact[];
-  setContacts: setContactsType;
-}) {
+export default function ContactTable() {
+  const dispatch = useAppDispatch();
+  const { contacts } = useAppSelector((state) => state.contacts);
+
   return (
     <table>
       <thead>
@@ -32,16 +33,26 @@ export default function ContactTable({
               <div>
                 <button
                   onClick={() => {
-                    deleteContact({
-                      contacts,
-                      setContacts,
-                      id: contact.id as number,
-                    });
+                    (async () => {
+                      const id = contact.id as number;
+                      const contactObj = { contacts, id };
+                      const updatedList = await deleteContact(contactObj);
+                      const newContactArr = setContact(updatedList);
+                      dispatch(newContactArr);
+                    })();
                   }}
                 >
                   Delete
                 </button>
-                <button>Edit</button>
+                <button
+                  onClick={() => {
+                    dispatch(setFormModal(true));
+                    dispatch(setContactFormType("edit contact"));
+                    dispatch(setEditContactId(contact.id as number));
+                  }}
+                >
+                  Edit
+                </button>
               </div>
             </td>
           </tr>
