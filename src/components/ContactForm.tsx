@@ -1,10 +1,11 @@
 import { setContact } from "../features/contactSlice";
 import { setFormModal } from "../features/formModalSlice";
+import { inputObject } from "../constants/objectConstant";
 import { setContactForm } from "../features/contactFormSlice";
-import { IHandkeChange, inputFieldType } from "../types/types";
+import { IHandleChange, inputFieldType } from "../types/types";
 import { getInputFieldNames } from "../constants/textConstants";
-import { useAppDispatch, useAppSelector } from "../reuduxStore/store";
 import { addContact, editContact } from "../helpers/actionMethods";
+import { useAppDispatch, useAppSelector } from "../reuduxStore/store";
 
 export default function ContactForm() {
   const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ export default function ContactForm() {
   const { editContactId } = useAppSelector((state) => state.editContactId);
   const { contactFormType } = useAppSelector((state) => state.contactFormType);
 
-  const handleChange = ({ inputField, e }: IHandkeChange) => {
+  const handleChange = ({ inputField, e }: IHandleChange) => {
     const inputFieldCopy = { ...contactForm, [inputField]: e.target.value };
     dispatch(setContactForm(inputFieldCopy));
   };
@@ -43,6 +44,7 @@ export default function ContactForm() {
             e.preventDefault();
             if (contactFormType === "add contact") {
               dispatch(setContact(await addContact({ contacts, contactForm })));
+              dispatch(setContactForm(inputObject));
             }
             if (contactFormType === "edit contact") {
               dispatch(
@@ -54,6 +56,7 @@ export default function ContactForm() {
                   })
                 )
               );
+              dispatch(setContactForm(inputObject));
             }
             dispatch(setFormModal(false));
           })();

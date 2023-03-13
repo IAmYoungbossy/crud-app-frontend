@@ -2,9 +2,10 @@ import { setContact } from "../features/contactSlice";
 import { deleteContact } from "../helpers/actionMethods";
 import { setFormModal } from "../features/formModalSlice";
 import { tableHeaderTexts } from "../constants/textConstants";
+import { setContactForm } from "../features/contactFormSlice";
 import { setContactFormType } from "../features/formTypeSlice";
-import { useAppDispatch, useAppSelector } from "../reuduxStore/store";
 import { setEditContactId } from "../features/editContactIdSlice";
+import { useAppDispatch, useAppSelector } from "../reuduxStore/store";
 
 export default function ContactTable() {
   const dispatch = useAppDispatch();
@@ -47,6 +48,7 @@ export default function ContactTable() {
                 <button
                   onClick={() => {
                     dispatch(setFormModal(true));
+                    dispatch(setContactForm({ ...contact }));
                     dispatch(setContactFormType("edit contact"));
                     dispatch(setEditContactId(contact.id as number));
                   }}

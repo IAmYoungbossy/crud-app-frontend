@@ -18,7 +18,7 @@ export type inputFieldType =
   | "Last Name"
   | "First Name";
 
-export interface IHandkeChange {
+export interface IHandleChange {
   inputField: string;
   e: React.ChangeEvent<HTMLInputElement>;
 }
