@@ -1,11 +1,12 @@
 import { setContact } from "../features/contactSlice";
+import { StyledContactForm } from "./StyledContactForm";
 import { setFormModal } from "../features/formModalSlice";
-import { inputObject } from "../constants/objectConstant";
 import { setContactForm } from "../features/contactFormSlice";
 import { IHandleChange, inputFieldType } from "../types/types";
 import { getInputFieldNames } from "../constants/textConstants";
 import { addContact, editContact } from "../helpers/actionMethods";
 import { useAppDispatch, useAppSelector } from "../reduxStore/store";
+import { inputObject, validations } from "../constants/objectConstant";
 
 export default function ContactForm() {
   const dispatch = useAppDispatch();
@@ -23,6 +24,21 @@ export default function ContactForm() {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Prevents submitting form with empty fields
+    const hasErrors = validations.some((validation) => {
+      const field = validation.field as inputFieldType;
+      if (!contactForm[field].trim()) {
+        alert(validation.message);
+        return true;
+      }
+      return false;
+    });
+
+    if (hasErrors) {
+      return;
+    }
+
     if (contactFormType === "add contact") {
       const updatedContacts = await addContact({ contacts, contactForm });
       dispatch(setContact(updatedContacts));
@@ -41,13 +57,18 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <StyledContactForm
+      onSubmit={handleFormSubmit}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <p>All fields are requred</p>
       {inputFieldNames.map((inputField, index) => {
         const value = inputField as inputFieldType;
         return (
           <div key={index}>
-            <label htmlFor={inputField}>{inputField}:</label>
+            <label htmlFor={inputField}>{inputField} (*)</label>
             <input
+              // required
               type="text"
               id={inputField}
               name={inputField}
@@ -61,6 +82,6 @@ export default function ContactForm() {
       <button>
         {contactFormType === "add contact" ? "Add Contact" : "Edit Contact"}
       </button>
-    </form>
+    </StyledContactForm>
   );
 }

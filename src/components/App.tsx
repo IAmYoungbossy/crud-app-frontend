@@ -1,11 +1,12 @@
+import Header from "./Header";
 import { useEffect } from "react";
 import ContactForm from "./ContactForm";
+import { StyledApp } from "./StyledApp";
 import ContactTable from "./ContactTable";
+import { ShowModalPopUp } from "./ShowModalPopUp";
 import { setContact } from "../features/contactSlice";
 import { getContacts } from "../helpers/actionMethods";
 import { useAppDispatch, useAppSelector } from "../reduxStore/store";
-import Header from "./Header";
-import { StyledApp } from "./StyledApp";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -25,7 +26,11 @@ function App() {
       <div>
         <h2>ShortListed Candidates</h2>
         <ContactTable />
-        {showFormModal && <ContactForm />}
+        {showFormModal && (
+          <ShowModalPopUp>
+            <ContactForm />
+          </ShowModalPopUp>
+        )}
       </div>
     </StyledApp>
   );

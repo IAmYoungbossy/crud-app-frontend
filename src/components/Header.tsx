@@ -1,6 +1,7 @@
 import { StyledHeader } from "./StyledHeader";
 import { useAppDispatch } from "../reduxStore/store";
 import { setFormModal } from "../features/formModalSlice";
+import ChamsMobileLogo from "../assets/chams-main-logo.png";
 import { setContactFormType } from "../features/formTypeSlice";
 
 export default function Header() {
@@ -14,7 +15,7 @@ export default function Header() {
   return (
     <StyledHeader>
       <div>
-        <h1>Contacts Table</h1>
+        <img src={ChamsMobileLogo} alt="Chams Mobile Logo" />
         <button onClick={handleAddContactClick}>Add Contact</button>
       </div>
     </StyledHeader>

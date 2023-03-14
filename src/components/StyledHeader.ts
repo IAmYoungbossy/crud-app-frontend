@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const StyledHeader = styled.header`
   z-index: 2;
   display: flex;
-  padding: 20px 30px;
+  padding: 5px 30px;
   position: relative;
   align-items: center;
   justify-content: center;
@@ -14,6 +14,7 @@ export const StyledHeader = styled.header`
     width: 100%;
     display: flex;
     max-width: 900px;
+    align-items: center;
     justify-content: space-between;
 
     h1 {
@@ -22,14 +23,20 @@ export const StyledHeader = styled.header`
     }
   }
 
+  img {
+    width: 100px;
+  }
+
   button {
+    height: 27px;
     border: none;
     color: white;
     font-size: 1rem;
     cursor: pointer;
     font-weight: bold;
     padding: 5px 10px;
+    width: max-content;
     border-radius: 10px;
-    background-color: #596d48;
+    background-color: #38910f;
   }
 `;

@@ -24,7 +24,7 @@ export const StyledContactTable = styled.table`
 
   th {
     color: #fff;
-    background-color: rgb(89, 109, 72);
+    background-color: #38910f;
   }
 
   tr:nth-child(even) {
