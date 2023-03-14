@@ -23,6 +23,7 @@ function App() {
     <StyledApp>
       <Header />
       <div>
+        <h2>ShortListed Candidates</h2>
         <ContactTable />
         {showFormModal && <ContactForm />}
       </div>

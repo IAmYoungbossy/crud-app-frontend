@@ -3,6 +3,7 @@ import { Icontact } from "../types/types";
 import { setContact } from "../features/contactSlice";
 import { deleteContact } from "../helpers/actionMethods";
 import { setFormModal } from "../features/formModalSlice";
+import { StyledContactTable, StyledTableContainer } from "./StyledContactTable";
 import { setContactForm } from "../features/contactFormSlice";
 import { setContactFormType } from "../features/formTypeSlice";
 import { TABLE_HEADER_TEXTS } from "../constants/textConstants";
@@ -30,25 +31,27 @@ export default function ContactTable() {
   };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          {TABLE_HEADER_TEXTS.map((headerText, index) => (
-            <th key={index}>{headerText}</th>
+    <StyledTableContainer>
+      <StyledContactTable>
+        <thead>
+          <tr>
+            {TABLE_HEADER_TEXTS.map((headerText, index) => (
+              <th key={index}>{headerText}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {contacts.map((contact, index) => (
+            <ContactRow
+              key={contact.id}
+              index={index + 1}
+              contact={contact}
+              onDelete={() => handleDelete(contact.id as number)}
+              onEdit={() => handleEdit(contact)}
+            />
           ))}
-        </tr>
-      </thead>
-      <tbody>
-        {contacts.map((contact, index) => (
-          <ContactRow
-            key={contact.id}
-            index={index + 1}
-            contact={contact}
-            onDelete={() => handleDelete(contact.id as number)}
-            onEdit={() => handleEdit(contact)}
-          />
-        ))}
-      </tbody>
-    </table>
+        </tbody>
+      </StyledContactTable>
+    </StyledTableContainer>
   );
 }
